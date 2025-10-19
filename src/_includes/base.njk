@@ -18,7 +18,7 @@
       </ul>
     {% endmacro %}
 
-    <link rel="stylesheet" href="/assets/style.css" />
+    <link rel="stylesheet" href="{{ '/assets/style.css' | url }}" />
   </head>
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -37,8 +37,8 @@
           <button id="mobile-menu-toggle" class="mobile-menu-toggle" title="Open navigation">
             <svg aria-hidden="true"><use xlink:href="#icon-menu"></use></svg>
           </button>
-          <a href="/" class="logo-link">
-            <img src="/assets/logo.png" alt="WeberQ Logo" class="logo" />
+          <a href="{{ '/' | url }}" class="logo-link">
+            <img src="{{ '/assets/logo.png' | url }}" alt="WeberQ Logo" class="logo" />
             <span class="logo-title">WeberQ Global SOPs</span>
           </a>
         </div>
@@ -177,7 +177,7 @@
         };
 
         // Fetch and index once
-        fetch("/search.json")
+        fetch("{{ '/search.json' | url }}")
           .then(r => r.json())
           .then(data => buildIndex(data))
           .catch(err => console.error("Error fetching search index:", err));
