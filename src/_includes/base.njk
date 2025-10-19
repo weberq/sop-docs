@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }} | WeberQ Global</title>
+    
+    {% macro renderNav(entries) %}
+      <ul>
+        {% for entry in entries %}
+          <li {% if entry.url == page.url %}class="active"{% endif %}>
+            <a href="{{ entry.url }}">{{ entry.title }}</a>
+            {% if entry.children.length %}
+              {{ renderNav(entry.children) }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endmacro %}
+
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="icon-sun" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.99 4.58zm12.02 12.02c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.06-1.06zm1.06-10.61c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l1.06-1.06zm-12.02 12.02c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l1.06-1.06z"/></symbol>
+      <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M9.37 5.51C9.19 6.15 9.1 6.82 9.1 7.5c0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27C17.45 17.19 14.93 19 12 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49z"/></symbol>
+      <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></symbol>
+      <symbol id="icon-close" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+    </svg>
+
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+    <div class="page-grid">
+      <header class="page-header">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-menu-toggle" title="Open navigation">
+            <svg aria-hidden="true"><use xlink:href="#icon-menu"></use></svg>
+          </button>
+          <a href="/" class="logo-link">
+            <img src="/assets/logo.png" alt="WeberQ Logo" class="logo" />
+            <span class="logo-title">WeberQ Global SOPs</span>
+          </a>
+        </div>
+        
+        <div class="header-right">
+          <div class="search-wrapper">
+            <label for="search-input" class="search-icon">
+              <svg aria-hidden="true"><use xlink:href="#icon-search"></use></svg>
+            </label>
+            <input type="search" id="search-input" class="search-input" placeholder="Search SOPs..."/>
+            <div class="search-results" id="search-results">
+              <ul id="search-results-list"></ul>
+            </div>
+          </div>
+          <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+            <svg class="sun" aria-hidden="true"><use xlink:href="#icon-sun"></use></svg>
+            <svg class="moon" aria-hidden="true"><use xlink:href="#icon-moon"></use></svg>
+          </button>
+        </div>
+      </header>
+
+      <nav class="page-nav" id="page-nav">
+        <button id="mobile-menu-close" class="mobile-menu-close" title="Close navigation">
+          <svg aria-hidden="true"><use xlink:href="#icon-close"></use></svg>
+        </button>
+        {{ renderNav(collections.all | eleventyNavigation) }}
+      </nav>
+      
+      <main class="page-content-wrapper">
+        <article class="page-content">
+          <h1>{{ title }}</h1>
+          {{ content | safe }}
+        </article>
+      </main>
+
+      <aside class="page-toc">
+        <div class="toc-sticky">
+          <h3>On this page</h3>
+          {{ content | toc | safe }}
+        </div>
+      </aside>
+
+    </div>
+
+    <script>
+      (function () {
+        // --- Theme Toggle ---
+        const themeBtn = document.getElementById("theme-toggle");
+        const doc = document.documentElement;
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+        let currentTheme = localStorage.getItem("theme");
+
+        if (!currentTheme) {
+          currentTheme = prefersDark.matches ? "dark" : "light";
+        }
+        doc.setAttribute("data-theme", currentTheme);
+
+        themeBtn.addEventListener("click", () => {
+          const newTheme =
+            doc.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          doc.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+        });
+        
+        prefersDark.addEventListener("change", (e) => {
+           if (!localStorage.getItem("theme")) {
+              doc.setAttribute("data-theme", e.matches ? "dark" : "light");
+           }
+        });
+
+        // --- Mobile Menu Toggle ---
+        const body = document.body;
+        const menuToggle = document.getElementById("mobile-menu-toggle");
+        const menuClose = document.getElementById("mobile-menu-close");
+        const overlay = document.getElementById("mobile-overlay");
+
+        function openMenu() { body.classList.add("is-mobile-menu-open"); }
+        function closeMenu() { body.classList.remove("is-mobile-menu-open"); }
+
+        menuToggle.addEventListener("click", openMenu);
+        menuClose.addEventListener("click", closeMenu);
+        overlay.addEventListener("click", closeMenu);
+        
+        // --- Client-Side Search (optimized) ---
+        const searchInput = document.getElementById("search-input");
+        const resultsContainer = document.getElementById("search-results");
+        const resultsList = document.getElementById("search-results-list");
+
+        let docs = [];
+        let inverted = null; // Map token -> Set(docId)
+
+        const tokenize = (text) => (text.toLowerCase().match(/[a-z0-9]+/g) || []);
+
+        const buildIndex = (data) => {
+          docs = data.map((d, i) => ({
+            id: i,
+            url: d.url,
+            title: d.title || "",
+            content: d.content || ""
+          }));
+          const idx = new Map();
+          for (let i = 0; i < docs.length; i++) {
+            const d = docs[i];
+            // Unique tokens per doc to avoid inflating postings
+            const tokens = new Set([...tokenize(d.title), ...tokenize(d.content)]);
+            for (const t of tokens) {
+              if (t.length < 2) continue;
+              let set = idx.get(t);
+              if (!set) {
+                set = new Set();
+                idx.set(t, set);
+              }
+              set.add(i);
+            }
+          }
+          inverted = idx;
+        };
+
+        const renderResults = (items) => {
+          resultsList.innerHTML = "";
+          if (!items.length) {
+            const li = document.createElement("li");
+            li.textContent = "No results found";
+            resultsList.appendChild(li);
+            resultsContainer.style.display = "block";
+            return;
+          }
+          const frag = document.createDocumentFragment();
+          for (const it of items.slice(0, 10)) {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="${it.url}">${it.title}</a>`;
+            frag.appendChild(li);
+          }
+          resultsList.appendChild(frag);
+          resultsContainer.style.display = "block";
+        };
+
+        // Fetch and index once
+        fetch("/search.json")
+          .then(r => r.json())
+          .then(data => buildIndex(data))
+          .catch(err => console.error("Error fetching search index:", err));
+
+        // Debounce input to reduce re-computation on rapid typing
+        let debounceTimer = null;
+        const onSearch = () => {
+          const q = searchInput.value.toLowerCase().trim();
+          if (q.length < 2 || !inverted) {
+            resultsContainer.style.display = "none";
+            return;
+          }
+
+          // Multi-term AND search across tokens
+          const terms = Array.from(new Set(tokenize(q))).filter(t => t.length >= 2);
+          if (!terms.length) {
+            resultsContainer.style.display = "none";
+            return;
+          }
+
+          // Start with postings of the rarest term to minimize intersections
+          terms.sort((a, b) => (inverted.get(a)?.size || 0) - (inverted.get(b)?.size || 0));
+
+          let candidate = null;
+          for (const t of terms) {
+            const postings = inverted.get(t);
+            if (!postings) {
+              candidate = new Set();
+              break;
+            }
+            if (candidate === null) {
+              candidate = new Set(postings);
+            } else {
+              // Intersect
+              for (const id of Array.from(candidate)) {
+                if (!postings.has(id)) candidate.delete(id);
+              }
+              if (candidate.size === 0) break;
+            }
+          }
+          const ids = candidate ? Array.from(candidate) : [];
+
+          // Rank by: title contains query, term matches count, shorter title first
+          const qlc = q; // already lower-case
+          const scored = ids.map(id => {
+            const d = docs[id];
+            const titleLc = d.title.toLowerCase();
+            let score = 0;
+            if (titleLc.includes(qlc)) score += 5;
+            let matches = 0;
+            for (const t of terms) {
+              if (titleLc.includes(t)) matches += 2;
+            }
+            score += matches;
+            return { id, score };
+          }).sort((a, b) => b.score - a.score || (docs[a.id].title.length - docs[b.id].title.length));
+
+          const items = scored.map(s => docs[s.id]);
+          renderResults(items);
+        };
+
+        searchInput.addEventListener("input", () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(onSearch, 120);
+        });
+
+        // Hide results when clicking outside
+        document.addEventListener("click", (e) => {
+          if (!resultsContainer.contains(e.target) && !searchInput.contains(e.target)) {
+            resultsContainer.style.display = "none";
+          }
+        });
+
+      })();
+    </script>
+  </body>
+</html>

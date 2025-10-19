@@ -1,0 +1,19 @@
+# Node.js dependencies
+node_modules/
+
+# Eleventy build output
+_site/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating System files
+.DS_Store
+Thumbs.db
